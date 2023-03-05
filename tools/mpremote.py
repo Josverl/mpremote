@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
 import sys
-from mpremote import main
+from tools.mpremote import main
 
 sys.exit(main.main())
