@@ -331,19 +331,15 @@ def load_user_config():
     # Create empty config object.
     config = __build_class__(lambda: None, "Config")()
     config.commands = {}
+    # Get config file name.
     # use $XDG_CONFIG_HOME, if on Windows use $APPDATA
     if os.name != "nt":
-        # Get config file name.
-        path = os.getenv("XDG_CONFIG_HOME")
-        if path is None:
-            path = os.getenv("HOME")
-            if path is None:
-                return config
-            path = os.path.join(path, ".config")
+        path = os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME")
+        path = os.path.join(path, ".config") if path else None
     else:
         path = os.getenv("HOME") or os.getenv("APPDATA")
-        if path is None:
-            return config
+    if path is None:
+        return config
     path = os.path.join(path, _PROG)
     config_file = os.path.join(path, "config.py")
     print("Loading config from: ", config_file)
