@@ -288,9 +288,13 @@ class Pyboard:
                 try:
                     if os.name == "nt":
                         # Windows does not set DTR or RTS by default
+                        # below settings work for ESPxx and do not interfere with other MCUs (e.g. STM32)
+                        # https://docs.espressif.com/projects/esptool/en/latest/esp32/advanced-topics/boot-mode-selection.html#boot-mode-message
+                        # https://docs.espressif.com/projects/esptool/en/latest/esp8266/advanced-topics/boot-mode-selection.html
                         self.serial = serial.Serial(**serial_kwargs)
-                        self.serial.dtr = True
-                        self.serial.rts = False
+                        self.serial.dtr = True  # ESPxx GPIO0=LOW
+                        self.serial.rts = True  # ESPxx EN=LOW
+                        # RTS set as Windows only propagates DTR on RTS setting
                         self.serial.port = device
                         self.serial.open()
                     else:
