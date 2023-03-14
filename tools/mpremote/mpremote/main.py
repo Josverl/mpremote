@@ -342,7 +342,7 @@ def load_user_config():
         return config
     path = os.path.join(path, _PROG)
     config_file = os.path.join(path, "config.py")
-    print("Loading config from: ", config_file)
+    # print("Loading config from: ", config_file)
     # Check if config file exists.
     if not os.path.exists(config_file):
         return config
