@@ -287,15 +287,18 @@ class Pyboard:
             for attempt in range(wait + 1):
                 try:
                     if os.name == "nt":
-                        # Windows does not set DTR or RTS by default
-                        # below settings work for ESPxx and do not interfere with other MCUs (e.g. STM32)
-                        # https://docs.espressif.com/projects/esptool/en/latest/esp32/advanced-topics/boot-mode-selection.html#boot-mode-message
-                        # https://docs.espressif.com/projects/esptool/en/latest/esp8266/advanced-topics/boot-mode-selection.html
                         self.serial = serial.Serial(**serial_kwargs)
-                        self.serial.dtr = True  # ESPxx GPIO0=LOW
-                        self.serial.rts = True  # ESPxx EN=LOW
-                        # RTS set as Windows only propagates DTR on RTS setting
-                        self.serial.port = device
+                        self.serial.port = device                        
+                        portinfo:List[ListPortInfo] = list(serial.tools.list_ports.grep(device)) # type: ignore
+                        if portinfo and  portinfo[0].manufacturer != "Microsoft": 
+                            # ESPxx boards and ESP32 boards use RTS/CTS for flashing and boot mode selection
+                            # to not interfere with other boards, we set RTS and DTR to low
+                            # DTR Low, in order to prevent pulses on rts ( would reset ESPxx)
+                            # RTS Low, to avoid using the reset button will hang the MCU in bootloader mode
+                            self.serial.dtr = False  # ESPxx: DTR Low -- GPIO 0 HIGH = Normal Boot mode
+                            self.serial.rts = False  # ESPxx: RTS LOW -- EN High = MCU enabled
+                            # https://docs.espressif.com/projects/esptool/en/latest/esp32/advanced-topics/boot-mode-selection.html#boot-mode-message
+                            # https://docs.espressif.com/projects/esptool/en/latest/esp8266/advanced-topics/boot-mode-selection.html
                         self.serial.open()
                     else:
                         self.serial = serial.Serial(device, **serial_kwargs)
