@@ -6,3 +6,8 @@ Untill then you can enjoy some of the recent features after:
 
 `pip install  git+https://github.com/Josverl/mpremote.git@main#subdirectory=tools/mpremote `
 
+Includes
+- Windows Environment for mpremote config 
+- Windows Editor handling 
+- DTR * RTS Fixes - Improved ESPxx handling on Windows 
+  

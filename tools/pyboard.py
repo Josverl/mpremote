@@ -288,17 +288,15 @@ class Pyboard:
                 try:
                     if os.name == "nt":
                         self.serial = serial.Serial(**serial_kwargs)
-                        self.serial.port = device                        
-                        portinfo:List[ListPortInfo] = list(serial.tools.list_ports.grep(device)) # type: ignore
-                        if portinfo and  portinfo[0].manufacturer != "Microsoft": 
+                        self.serial.port = device
+                        portinfo = list(serial.tools.list_ports.grep(device))  # type: ignore
+                        if portinfo and portinfo[0].manufacturer != "Microsoft":
                             # ESPxx boards and ESP32 boards use RTS/CTS for flashing and boot mode selection
-                            # to not interfere with other boards, we set RTS and DTR to low
-                            # DTR Low, in order to prevent pulses on rts ( would reset ESPxx)
-                            # RTS Low, to avoid using the reset button will hang the MCU in bootloader mode
-                            self.serial.dtr = False  # ESPxx: DTR Low -- GPIO 0 HIGH = Normal Boot mode
-                            self.serial.rts = False  # ESPxx: RTS LOW -- EN High = MCU enabled
-                            # https://docs.espressif.com/projects/esptool/en/latest/esp32/advanced-topics/boot-mode-selection.html#boot-mode-message
-                            # https://docs.espressif.com/projects/esptool/en/latest/esp8266/advanced-topics/boot-mode-selection.html
+                            # DTR False, to avoid using the reset button will hang the MCU in bootloader mode
+                            # RTS False, to prevent pulses on rts on serial.close() that would POWERON_RESET an ESPxx
+                            self.serial.dtr = False  # DTR False = gpio0 High = Normal boot
+                            self.serial.rts = False  # RTS False = EN High = MCU enabled
+
                         self.serial.open()
                     else:
                         self.serial = serial.Serial(device, **serial_kwargs)

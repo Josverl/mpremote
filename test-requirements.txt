@@ -1,0 +1,8 @@
+build
+
+#test
+pyserial
+requests
+keyboard
+
+pytest

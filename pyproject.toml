@@ -1,0 +1,12 @@
+[tool.pytest.ini_options]
+python_files = ["test_*.py", "*_test.py"]
+testpaths = ["tests"]
+junit_family = "xunit1"
+addopts = "-m 'not manual'"
+
+markers = [
+    "mpremote",
+    "serial: using serialports",
+    "manual: requiring manual intercation (deselected by default)",
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
