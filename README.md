@@ -7,7 +7,10 @@ Untill then you can enjoy some of the recent features after:
 `pip install  git+https://github.com/Josverl/mpremote.git@main#subdirectory=tools/mpremote `
 
 Includes
-- Windows Environment for mpremote config 
-- Windows Editor handling 
-- DTR * RTS Fixes - Improved ESPxx handling on Windows 
+- PR: mpremote: Allow user configuration on Windows #9573 -- OPEN   
+  https://github.com/micropython/micropython/pull/9573
+- PR: mpremote: Fix edit command on windows. #10597 -- OPEN  
+  https://github.com/micropython/micropython/pull/10597  
+- mpremote/pyboard: ESPxxx boards hang in firmware bootloader after hardware reset via button . #11075 -- MERGED   
+  https://github.com/micropython/micropython/issues/11075
   
