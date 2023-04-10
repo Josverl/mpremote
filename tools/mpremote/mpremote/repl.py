@@ -8,7 +8,7 @@ def do_repl_main_loop(state, console_in, console_out_write, *, code_to_inject, f
         console_in.waitchar(state.pyb.serial)
         c = console_in.readchar()
         if c:
-            if c == b"\x1d":  # ctrl-], quit
+            if c in [b"\x1d", b"\x18"]:  # ctrl-] or ctrl-x, quit
                 break
             elif c == b"\x04":  # ctrl-D
                 # special handling needed for ctrl-D if filesystem is mounted
