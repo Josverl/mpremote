@@ -1,6 +1,6 @@
 # TEMPORARY mpremote
 
-This repo will be decomissioned when the next relelease (? v1.20.0? ) of mpremote is available.
+This repo will be decomissioned when the next relelease (? v1.20.0? ) of mpremote is available, and/or the below PRs have been merged into the mainline.
 
 Untill then you can enjoy some of the recent features after:
 
