@@ -2,7 +2,7 @@
 python_files = ["test_*.py", "*_test.py"]
 testpaths = ["tests"]
 junit_family = "xunit1"
-addopts = "-m 'not manual'"
+# addopts = "-m 'not manual'"
 
 markers = [
     "mpremote",
